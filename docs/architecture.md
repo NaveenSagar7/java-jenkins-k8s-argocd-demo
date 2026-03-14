@@ -6,11 +6,32 @@ handles the CD stage (deployment to Kubernetes).
 
 ## High-Level Flow
 
-Developer Push │ ▼ GitHub (Application Repository) │ ▼ Jenkins Pipeline
-│ ├── Checkout Source Code ├── Maven Build ├── SonarQube Code Analysis
-├── Quality Gate Validation │ ├── Docker Image Build ├── Docker Image
-Push (DockerHub) │ └── Update Kubernetes Manifest Repository │ ▼ GitHub
-(Manifest Repository) │ ▼ ArgoCD │ ▼ Kubernetes Cluster
+Developer Push
+      │
+      ▼
+GitHub (Application Repository)
+      │
+      ▼
+Jenkins Pipeline
+      │
+      ├── Checkout Source Code
+      ├── Maven Build
+      ├── SonarQube Code Analysis
+      ├── Quality Gate Validation
+      │
+      ├── Docker Image Build
+      ├── Docker Image Push (DockerHub)
+      │
+      └── Update Kubernetes Manifest Repository
+              │
+              ▼
+        GitHub (Manifest Repository)
+              │
+              ▼
+            ArgoCD
+              │
+              ▼
+        Kubernetes Cluster
 
 ## Key Idea
 
