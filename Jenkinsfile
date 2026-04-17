@@ -63,7 +63,7 @@ pipeline {
                         sh '''
                         chmod +x scripts/update_image.sh
                         ./scripts/update_image.sh $VERSION
-
+                        git remote -v
                         git remote set-url origin https://$GIT_USER:$GIT_TOKEN@github.com/NaveenSagar7/java-k8s-manifests.git
                         git push origin main
                         '''
