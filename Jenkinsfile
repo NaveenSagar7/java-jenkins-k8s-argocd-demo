@@ -58,8 +58,9 @@ pipeline {
                 // ---------- SCENARIO 1 : PUBLIC MANIFEST REPOSITORY ----------
                 // If the Kubernetes manifest repository is public,
                 // Jenkins can clone and push directly (if push permission exists).
-        
+                
                 sh '''
+                rm -rf java-k8s-manifests
                 git clone https://github.com/NaveenSagar7/java-k8s-manifests.git
                 cd java-k8s-manifests/scripts
                 ./update_image.sh ${VERSION}
