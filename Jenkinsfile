@@ -62,8 +62,6 @@ pipeline {
                     )]) {
                         sh """
                         chmod +x scripts/update_image.sh
-                        echo "USER=$GIT_USER"
-                        echo "TOKEN length=${#GIT_TOKEN}"
                         export GIT_TERMINAL_PROMPT=0
                         export GIT_ASKPASS=true
 
