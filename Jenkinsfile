@@ -52,45 +52,23 @@ pipeline {
             }
         }
 
-        stage('Update Manifest Repo') {
+        stage('Update & Push Manifest') {
             steps {
-        
-                // ---------- SCENARIO 1 : PUBLIC MANIFEST REPOSITORY ----------
-                // If the Kubernetes manifest repository is public,
-                // Jenkins can clone and push directly (if push permission exists).
-                
-                sh '''
-                rm -rf java-k8s-manifests
-                git clone https://github.com/NaveenSagar7/java-k8s-manifests.git
-                cd java-k8s-manifests/scripts
-                ./update_image.sh ${VERSION}
-                '''
-        
-                /*
-                ---------- SCENARIO 2 : PRIVATE MANIFEST REPOSITORY ----------
-                If the manifest repository is private, Jenkins must use credentials.
-                Store a GitHub Personal Access Token in Jenkins Credentials Manager.
-        
-                Manage Jenkins → Credentials → Add Credentials
-                Type: Username + Password
-                ID: github-token
-        
-                Then use the credentials like this:
-        
-                withCredentials([usernamePassword(
-                    credentialsId: 'github-token',
-                    usernameVariable: 'GIT_USER',
-                    passwordVariable: 'GIT_TOKEN'
-                )]) {
-        
-                    sh '''
-                    git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/username/java-k8s-manifests.git
-                    cd java-k8s-manifests/scripts
-                    ./update-image.sh ${VERSION}
-                    '''
+                dir('java-k8s-manifests') {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'k8s-manifest-token',
+                        usernameVariable: 'GIT_USER',
+                        passwordVariable: 'GIT_TOKEN'
+                    )]) {
+                        sh '''
+                        chmod +x scripts/update_image.sh
+                        ./scripts/update_image.sh $VERSION
+
+                        git remote set-url origin https://$GIT_USER:$GIT_TOKEN@github.com/NaveenSagar7/java-k8s-manifests.git
+                        git push origin main
+                        '''
+                    }
                 }
-                */
-        
             }
         }
 
