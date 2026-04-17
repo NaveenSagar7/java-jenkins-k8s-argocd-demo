@@ -44,12 +44,14 @@ pipeline {
             }
         }
 
-        stage('Docker Push') {
+        stage('Docker Push')  {
             steps {
-                sh "docker push $DOCKER_IMAGE:$VERSION"
+                withDockerRegistry([credentialsId: 'dockerhub-cred', url: '']) {
+                    sh "docker push $DOCKER_IMAGE:$VERSION"
+                }
             }
         }
-
+        
         stage('Update Manifest Repo') {
             steps {
         
@@ -84,7 +86,7 @@ pipeline {
                     git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/username/java-k8s-manifests.git
                     cd java-k8s-manifests/scripts
                     ./update-image.sh ${VERSION}
-                    
+
                     '''
                 }
                 */
