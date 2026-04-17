@@ -3,19 +3,20 @@ pipeline {
     agent any
 
     environment {
-
-        DOCKER_IMAGE = "dockerhub-user/java-demo"
+        DOCKERHUB_USER = "naveen352"
+        DOCKER_IMAGE = "${DOCKERHUB_USER}/java-demo"
         VERSION = "v${BUILD_NUMBER}"
 
     }
 
     stages {
-
+        /*
         stage('Checkout') {
             steps {
                 git 'https://github.com/username/java-jenkins-k8s-argocd-demo.git'
             }
         }
+        */
 
         stage('Build') {
             steps {
@@ -33,15 +34,13 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
-                }
             }
         }
 
         stage('Docker Build') {
             steps {
-                sh "docker build -t $DOCKER_IMAGE:$VERSION ."
+                sh "docker build --no-cache -t $DOCKER_IMAGE:$VERSION ."
             }
         }
 
@@ -59,9 +58,9 @@ pipeline {
                 // Jenkins can clone and push directly (if push permission exists).
         
                 sh '''
-                git clone https://github.com/username/java-k8s-manifests.git
+                git clone https://github.com/NaveenSagar7/java-k8s-manifests.git
                 cd java-k8s-manifests/scripts
-                ./update-image.sh ${VERSION}
+                ./update_image.sh ${VERSION}
                 '''
         
                 /*
