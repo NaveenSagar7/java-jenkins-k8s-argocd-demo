@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         DOCKERHUB_USER = "naveen352"
-        DOCKER_IMAGE = "${DOCKERHUB_USER}/java-demo"
+        DOCKER_IMAGE = "${DOCKERHUB_USER}/java-demo-argocd"
         VERSION = "v${BUILD_NUMBER}"
 
     }
