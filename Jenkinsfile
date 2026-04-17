@@ -63,11 +63,9 @@ pipeline {
                         sh '''
                         chmod +x scripts/update_image.sh
                         ./scripts/update_image.sh $VERSION
-                        git config --global credential.helper store
-                        echo "https://$GIT_USER:$GIT_TOKEN@github.com" > ~/.git-credentials
-                        git remote -v
-                        git status
-                        git push origin main
+                        git config --global --unset credential.helper || true
+                        rm -f ~/.git-credentials || true
+                        git push https://$GIT_USER:$GIT_TOKEN@github.com/NaveenSagar7/java-k8s-manifests.git main
                         '''
                     }
                 }
