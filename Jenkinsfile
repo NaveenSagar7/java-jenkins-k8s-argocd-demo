@@ -51,7 +51,7 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Update Manifest Repo') {
             steps {
         
@@ -86,7 +86,6 @@ pipeline {
                     git clone https://${GIT_USER}:${GIT_TOKEN}@github.com/username/java-k8s-manifests.git
                     cd java-k8s-manifests/scripts
                     ./update-image.sh ${VERSION}
-
                     '''
                 }
                 */
