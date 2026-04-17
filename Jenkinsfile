@@ -62,9 +62,18 @@ pipeline {
                     )]) {
                         sh '''
                         chmod +x scripts/update_image.sh
+
+                        echo "=== BEFORE SCRIPT ==="
+                        git config --list
+                        ls -la .git/hooks || true
+                        echo "====================="
+                        git config core.hooksPath /dev/null
+
                         ./scripts/update_image.sh $VERSION
-                        git config --global --unset credential.helper || true
-                        rm -f ~/.git-credentials || true
+
+                        echo "=== AFTER SCRIPT ==="
+                        git config --list
+                        echo "====================="
                         git push https://$GIT_USER:$GIT_TOKEN@github.com/NaveenSagar7/java-k8s-manifests.git main
                         '''
                     }
