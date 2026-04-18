@@ -55,25 +55,31 @@ pipeline {
         stage('Update & Push Manifest') {
             steps {
                 dir('java-k8s-manifests') {
+
+                    git branch: 'main',
+                        url: 'https://github.com/NaveenSagar7/java-k8s-manifests.git',
+                        credentialsId: 'k8s-manifest-token'
+
                     withCredentials([usernamePassword(
                         credentialsId: 'k8s-manifest-token',
                         usernameVariable: 'GIT_USER',
                         passwordVariable: 'GIT_TOKEN'
                     )]) {
+
                         sh """
                         ls -R
+
                         chmod +x scripts/update_image.sh
 
                         git config --local user.email "mandhadisagar3023@gmail.com"
                         git config --local user.name "NaveenSagar7"
-                        git checkout main || git checkout -b main
 
                         ./scripts/update_image.sh ${VERSION}
 
                         git status
                         git log -1
 
-                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/NaveenSagar7/java-k8s-manifests.git main
+                        git push https://\$GIT_USER:\$GIT_TOKEN@github.com/NaveenSagar7/java-k8s-manifests.git main
                         """
                     }
                 }
