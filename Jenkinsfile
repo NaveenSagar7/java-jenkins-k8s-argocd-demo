@@ -62,17 +62,17 @@ pipeline {
                     )]) {
                         sh """
                         chmod +x scripts/update_image.sh
-                        export GIT_TERMINAL_PROMPT=0
-                        export GIT_ASKPASS=true
 
                         git config --local user.email "mandhadisagar3023@gmail.com"
                         git config --local user.name "NaveenSagar7"
-                        git config --local commit.gpgsign false
-                        git config --local credential.helper ""
+                        git checkout main || git checkout -b main
 
                         ./scripts/update_image.sh ${VERSION}
 
-                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/NaveenSagar7/java-k8s-manifests.git HEAD:main
+                        git status
+                        git log -1
+
+                        git push https://${GIT_USER}:${GIT_TOKEN}@github.com/NaveenSagar7/java-k8s-manifests.git main
                         """
                     }
                 }
