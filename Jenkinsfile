@@ -61,6 +61,7 @@ pipeline {
                         passwordVariable: 'GIT_TOKEN'
                     )]) {
                         sh """
+                        ls -R
                         chmod +x scripts/update_image.sh
 
                         git config --local user.email "mandhadisagar3023@gmail.com"
