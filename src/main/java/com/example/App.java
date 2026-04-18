@@ -124,7 +124,7 @@ public class App {
 
                     "<body>" +
 
-                    "<div class='header'>⚽ Football Live Dashboard</div>" +
+                    "<div class='header'>⚽ Football Live Dashboard - ARGOCD </div>" +
 
                     "<div class='layout'>" +
 
