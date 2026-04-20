@@ -71,8 +71,8 @@ pipeline {
 
                         chmod +x scripts/update_image.sh
 
-                        git config --local user.email "mandhadisagar3023@gmail.com"
-                        git config --local user.name "NaveenSagar7"
+                        git config --local user.email "**************"
+                        git config --local user.name "********"
 
                         ./scripts/update_image.sh ${VERSION}
 
